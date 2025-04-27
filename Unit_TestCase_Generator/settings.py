@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-vd52^5d^!t2e_64cm7ors7j-9-x-7qhkj62gelp&l@3zrxezzb
 DEBUG = True
 
 # ALLOWED_HOSTS = ['unittestbackend.onrender.com', 'localhost', '127.0.0.1']
-ALLOWED_HOSTS = ['unittestcases-3.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['unittestbackend.onrender.com', 'localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
