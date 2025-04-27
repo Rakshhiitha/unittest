@@ -61,9 +61,7 @@
 #         print(f"Unexpected error: {str(e)}")
 #         return JsonResponse({'error': str(e)}, status=500)
 
-
 import os
-import json
 import google.generativeai as genai  # Assuming Gemini API
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -73,8 +71,8 @@ from django.views.decorators.http import require_http_methods
 def hello_world(request):
     return HttpResponse("Hello, World!")
 
-# Load the API key from environment variable
-api_key = os.getenv("AIzaSyA5ROzjpAIHeVipa-1dx4Kji8xpTw_VxMU")
+# Temporarily setting the API key directly in the code (only for testing)
+api_key = "AIzaSyA5ROzjpAIHeVipa-1dx4Kji8xpTw_VxMU"
 
 if not api_key:
     raise Exception("GENAI_API_KEY not found. Please set it in environment variables.")
