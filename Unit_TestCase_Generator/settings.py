@@ -54,9 +54,8 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ALLOW_ALL_ORIGINS = [
-    'http://localhost:3000/'
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
 ROOT_URLCONF = 'Unit_TestCase_Generator.urls'
 
 TEMPLATES = [
