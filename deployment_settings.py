@@ -14,16 +14,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',           # 👈 Add it right after SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
 ]
+
 STORAGES = {
     "default":{
         "BACKEND" : "django.core.files.storag.FileSystemStorage",
@@ -38,7 +37,6 @@ DATABASES = {
         conn_max_age=600
     )
 }
-
 
 CORS_ALLOW_ALL_ORIGINS = [
     "https://unittestreact.onrender.com"
