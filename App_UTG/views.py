@@ -1,0 +1,57 @@
+import json
+import google.generativeai as genai  # Assuming Gemini API
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from django.core.files.storage import default_storage
+from django.http import HttpResponse
+
+# Default view to return "Hello, World!" message
+def hello_world(request):
+    return HttpResponse("Hello, World!")
+
+# Load the API key from settings or environment variable
+api_key = "AIzaSyA5ROzjpAIHeVipa-1dx4Kji8xpTw_VxMU"  # Or use: api_key = settings.GENAI_API_KEY if using Django settings
+
+# Configure the API key
+genai.configure(api_key=api_key)
+
+@csrf_exempt  # Exempt CSRF protection for this view
+@require_http_methods(["POST"])  # Only allow POST requests to this endpoint
+def generate_tests(request):
+    try:
+        # Check if 'code' is present in the body or 'file' is in the request
+        if 'code' in request.POST:
+            code = request.POST['code']
+        elif 'file' in request.FILES:
+            file = request.FILES['file']
+            code = file.read().decode('utf-8')  # Read and decode file contents as text
+        else:
+            return JsonResponse({'error': 'No code or file provided'}, status=400)
+
+        # Create a prompt for the Gemini AI model to generate test cases
+        prompt = f"""Generate Python unittest test cases for the following code:
+        ```python
+        {code}
+        ```"""
+
+        # Log the prompt to ensure it's being generated correctly
+        print(f"Generated prompt: {prompt}")
+
+        # Create a model instance (Gemini API model or similar)
+        try:
+            model = genai.GenerativeModel("gemini-1.5-pro")  # Use the appropriate model name for your API
+            response = model.generate_content(prompt)
+            # Log the response to check for errors from the Gemini model
+            print(f"Generated test cases: {response.text}")
+        except Exception as e:
+            print(f"Error with the Gemini model: {str(e)}")
+            return JsonResponse({'error': f'Error with the Gemini model: {str(e)}'}, status=500)
+
+        # Return the generated test cases as part of the response
+        return JsonResponse({'test_cases': response.text}, status=200)
+
+    except Exception as e:
+        # Log the detailed error and return a response with the error message
+        print(f"Unexpected error: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
